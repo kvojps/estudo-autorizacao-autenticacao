@@ -23,32 +23,34 @@ public class ServicoUsuario implements IServicoUsuario {
 
 	@Override
 	public Usuario salvarUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("Salvando usuário {} no banco de dados", usuario.getNome());
+		return repositorioUsuario.save(usuario);
 	}
 
 	@Override
 	public TipoUsuario salvarTipoUsuario(TipoUsuario tipoUsuario) {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("Salvando novo tipo de usuário {} no banco de dados", tipoUsuario.getNome());
+		return repositorioTipoUsuario.save(tipoUsuario);
 	}
 
 	@Override
 	public void atribuirTipoAoUsuario(String nickname, String tipoUsuarioNome) {
-		// TODO Auto-generated method stub
-
+		log.info("Adicionando tipo {} ao usuário{}", tipoUsuarioNome, nickname);
+		Usuario usuario = repositorioUsuario.findByNickname(nickname);
+		TipoUsuario tipo = repositorioTipoUsuario.findByNome(tipoUsuarioNome);
+		usuario.getTipos().add(tipo);
 	}
 
 	@Override
 	public Usuario getUsuario(String nickname) {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("Obtendo usuário {}", nickname);
+		return repositorioUsuario.findByNickname(nickname);
 	}
 
 	@Override
 	public List<Usuario> getUsuarios() {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("Obtendo todos os usuários");
+		return repositorioUsuario.findAll();
 	}
 
 }

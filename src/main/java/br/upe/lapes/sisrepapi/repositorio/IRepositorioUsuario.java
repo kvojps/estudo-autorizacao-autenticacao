@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.upe.lapes.sisrepapi.modelo.Usuario;
 
 public interface IRepositorioUsuario extends JpaRepository<Usuario, Long> {
-	Usuario buscarPorUsuario(String nickname);
+	Usuario findByNickname(String nickname);
 }
