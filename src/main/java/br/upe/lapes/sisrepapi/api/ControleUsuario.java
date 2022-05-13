@@ -1,7 +1,9 @@
-package br.upe.lapes.sisrepapi.api;
+  package br.upe.lapes.sisrepapi.api;
 
 import java.net.URI;
 import java.util.List;
+
+import javax.servlet.http.HttpServlet;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

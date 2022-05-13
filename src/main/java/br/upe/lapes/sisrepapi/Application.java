@@ -24,24 +24,5 @@ public class Application {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	@Bean
-	CommandLineRunner run(ServicoUsuario servicoUsuario) {
-		return args -> {
-			servicoUsuario.salvarTipoUsuario(new TipoUsuario(null, "ROLE_USER"));
-			servicoUsuario.salvarTipoUsuario(new TipoUsuario(null, "ROLE_MANAGER"));
-			servicoUsuario.salvarTipoUsuario(new TipoUsuario(null, "ROLE_ADMIN"));
-			servicoUsuario.salvarTipoUsuario(new TipoUsuario(null, "ROLE_SUPER_ADMIN"));
-
-			servicoUsuario.salvarUsuario(new Usuario(null, "Spock de vulcano", "Spock", "1234", new ArrayList()));
-			servicoUsuario.salvarUsuario(new Usuario(null, "James T. Kirk", "Kirk", "1234", new ArrayList()));
-			servicoUsuario.salvarUsuario(new Usuario(null, "Uhura", "Uhura", "1234", new ArrayList()));
-			servicoUsuario.salvarUsuario(new Usuario(null, "Magro", "magro", "1234", new ArrayList()));
-			
-			servicoUsuario.atribuirTipoAoUsuario("Kirk", "ROLE_SUPER_ADMIN");
-			servicoUsuario.atribuirTipoAoUsuario("Spock", "ROLE_USER");
-			servicoUsuario.atribuirTipoAoUsuario("Spock", "ROLE_MANAGER");
-		};
-	}
 
 }

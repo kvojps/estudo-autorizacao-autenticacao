@@ -55,6 +55,12 @@ public class FiltroAutenticacaoPersonalizada extends UsernamePasswordAuthenticat
 				.withClaim("tipos",
 						user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
 				.sign(algoritmo);
+		String tokenRefresh = JWT.create().withSubject(user.getUsername())
+				.withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
+				.withIssuer(request.getRequestURL().toString()).sign(algoritmo);
+		
+		response.setHeader("token_acesso", tokenAcesso);
+		response.setHeader("refresh_token", tokenRefresh);
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.upe.lapes.sisrepapi.modelo.TipoUsuario;
@@ -26,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ServicoUsuario implements IServicoUsuario, UserDetailsService {
 	private final IRepositorioUsuario repositorioUsuario;
 	private final IRepositorioTipoUsuario repositorioTipoUsuario;
+	private final PasswordEncoder senhaCriptografada;
 
 	@Override
 	public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
@@ -48,6 +50,7 @@ public class ServicoUsuario implements IServicoUsuario, UserDetailsService {
 	@Override
 	public Usuario salvarUsuario(Usuario usuario) {
 		log.info("Salvando usuário {} no banco de dados", usuario.getNome());
+		usuario.setSenha(senhaCriptografada.encode(usuario.getSenha()));
 		return repositorioUsuario.save(usuario);
 	}
 
