@@ -10,8 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.upe.lapes.sisrepapi.filter.FiltroAutenticacaoPersonalizada;
+import br.upe.lapes.sisrepapi.filter.FiltroAutorizacaoPersonalizada;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -33,11 +35,12 @@ public class ConfiguracaoSeguranca extends WebSecurityConfigurerAdapter {
 		filtroAutenticacaoPersonalizada.setFilterProcessesUrl("/api/login");
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		http.authorizeRequests().antMatchers("api/login/**").permitAll();
+		http.authorizeRequests().antMatchers("api/login/**", "/api/token/refresh/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/usuario/**").hasAnyAuthority("ROLE_USER");
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/usuario/save**").hasAnyAuthority("ROLE_ADMIN");
 		http.authorizeRequests().anyRequest().authenticated();
 		http.addFilter(filtroAutenticacaoPersonalizada);
+		http.addFilterBefore(new FiltroAutorizacaoPersonalizada(), UsernamePasswordAuthenticationFilter.class);
 	}
 
 }
